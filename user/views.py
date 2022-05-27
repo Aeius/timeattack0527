@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 import hashlib
 from .models import UserModel
@@ -12,8 +14,9 @@ def sign_up_view(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        email = request.POST.get('email', '')
-        password = request.POST.get('password', '')
+        data = json.load(request)
+        email = data['email']
+        password = data['password']
         hashed_pw = hashlib.sha256(password.encode('utf-8')).hexdigest()
         print(email)
         if '@' not in email:
